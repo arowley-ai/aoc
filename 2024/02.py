@@ -37,7 +37,7 @@ def parse_data(input_data):
     return data
 
 
-def parse_data_two(input_data):
+def parse_data_part_b(input_data):
     data = mt.Dataset({'line': [x for x in input_data.split('\n')]}) \
         .with_id('row_id') \
         .mutate(aocar.list_of_numbers, 'report_simple') \
@@ -57,7 +57,7 @@ def part_a(input_data):
 
 
 def part_b(input_data):
-    data = parse_data_two(input_data) \
+    data = parse_data_part_b(input_data) \
         .rolling_mutate(trend, grouping_cols=['row_id', 'version_id']) \
         .filter(lambda column_id: column_id != 0) \
         .group_by(grouping_cols=['row_id', 'version_id'], other_cols=['trend']) \

@@ -1,16 +1,12 @@
 import aocd
 import martens as mt
-import re
-
-
-def list_of_numbers(line):
-    return [int(m.group()) for m in re.finditer(r'\b\d+\b', line)]
+import aocar
 
 
 def parse_data(input_data):
     data = mt.Dataset({'line': [x for x in input_data.split('\n')]}) \
         .with_id('row_id') \
-        .mutate_stretch(list_of_numbers,names=['first', 'second']) \
+        .mutate_stretch(aocar.list_of_numbers, names=['first', 'second']) \
         .drop(['line']) \
         .sort(['first'])
     return data
@@ -30,21 +26,11 @@ def part_b(input_data):
 
 
 day, year = aocd.get_day_and_year()
-puzzle = aocd.models.Puzzle(day=day, year=year)
 puzzle_input_data = aocd.get_data(day=day, year=year)
-
-example_table = mt.Dataset({'example': puzzle.examples}) \
-    .with_id('example_no') \
-    .mutate_stretch(lambda example: list(example.answers), names=['answer_one', 'answer_two']) \
-    .mutate(lambda example: example.input_data, 'input_data') \
-    .mutate(part_a) \
-    .mutate(part_b) \
-    .drop(['example', 'input_data'])
-
-print(example_table)
+aocar.print_example_table(day, year, part_a=part_a, part_b=part_b)
 
 part_a_answer = part_a(puzzle_input_data)
-# print(part_a_answer)
+print(part_a_answer)
 # aocd.submit(part_a_answer, part="a", day=day, year=year)
 
 part_b_answer = part_b(puzzle_input_data)
