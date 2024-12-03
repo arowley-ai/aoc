@@ -30,25 +30,13 @@ def report_expand(report_simple):
 
 
 def parse_data(input_data):
-    data = mt.Dataset({'line': [x for x in input_data.split('\n')]}) \
-        .with_id('row_id') \
-        .mutate_stack(aocar.list_of_numbers, 'report', enumeration='column_id') \
-        .select(['row_id', 'column_id', 'report'])
-    return data
-
-
-def parse_data_part_b(input_data):
-    data = mt.Dataset({'line': [x for x in input_data.split('\n')]}) \
-        .with_id('row_id') \
-        .mutate(aocar.list_of_numbers, 'report_simple') \
-        .mutate_stack(report_expand, enumeration='version_id', name='report') \
-        .column_stack('report', enumeration='column_id') \
-        .select(['row_id', 'column_id', 'version_id', 'report'])
-    return data
+    return mt.Dataset({'line': [x for x in input_data.split('\n')]}).with_id('row_id')
 
 
 def part_a(input_data):
     data = parse_data(input_data) \
+        .mutate_stack(aocar.list_of_numbers, 'report', enumeration='column_id') \
+        .select(['row_id', 'column_id', 'report']) \
         .rolling_mutate(trend, grouping_cols=['row_id']) \
         .filter(lambda column_id: column_id != 0) \
         .group_by(grouping_cols=['row_id'], other_cols=['trend']) \
@@ -57,14 +45,19 @@ def part_a(input_data):
 
 
 def part_b(input_data):
-    data = parse_data_part_b(input_data) \
+    data = parse_data(input_data) \
+        .mutate(aocar.list_of_numbers, 'report_simple') \
+        .mutate_stack(report_expand, enumeration='version_id', name='report') \
+        .column_stack('report', enumeration='column_id') \
+        .select(['row_id', 'column_id', 'version_id', 'report']) \
         .rolling_mutate(trend, grouping_cols=['row_id', 'version_id']) \
         .filter(lambda column_id: column_id != 0) \
         .group_by(grouping_cols=['row_id', 'version_id'], other_cols=['trend']) \
         .mutate(safe_unsafe) \
         .group_by(grouping_cols=['row_id'], other_cols=['safe_unsafe']) \
-        .mutate(lambda safe_unsafe: max(safe_unsafe), 'safe_unsafe')
+        .replace(max, ['safe_unsafe'])
     return sum(data['safe_unsafe'])
+
 
 day, year = aocd.get_day_and_year()
 puzzle_input_data = aocd.get_data(day=day, year=year)
