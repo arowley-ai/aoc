@@ -3,9 +3,10 @@ import martens as mt
 import re
 import math
 
+example_input = r"xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+
 pattern_one = r'(mul\(\d+,\d+\))'
 pattern_two = r"(mul\(\d+,\d+\)|do\(\)|don\'t\(\))"
-example_input = r"xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
 pattern_mul = r'^mul\((\d+),(\d+)\)$'
 do, dont = "do()", "don't()"
 
@@ -34,8 +35,7 @@ def part_a(input_data):
 
 def part_b(input_data):
     data = parse_data(input_data, pattern_two) \
-        .with_constant(0, 'dummy_id') \
-        .rolling_mutate(start_stop_command, grouping_cols=['dummy_id']) \
+        .rolling_mutate(start_stop_command) \
         .mutate(lambda start_stop_command, mul_components: start_stop_command * mul_components, 'filtered_commands')
     return sum(data['filtered_commands'])
 
