@@ -36,9 +36,9 @@ def get_correct_order(values, rules_before):
     return rtn
 
 
-def part_b(input_data, correct_ids):
+def part_b(input_data, part_a_ids):
     manuals, rules = parse_data(input_data, names=['before', 'value'])
-    wrong = manuals.filter(lambda row_id: row_id not in correct_ids).group_by(['row_id'], ['value'])
+    wrong = manuals.filter(lambda row_id: row_id not in part_a_ids).group_by(['row_id'], ['value'])
     rules_before = {value: tuple(before) for value, before in rules.generator(['value', 'before'])}
     fixed = wrong.mutate(lambda value: get_correct_order(value, rules_before), 'value') \
         .mutate(lambda value: value[int((len(value) + 1) / 2) - 1], 'middle')
