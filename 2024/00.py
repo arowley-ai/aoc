@@ -22,13 +22,19 @@ def part_b(input_data):
 
 
 day, year = aocd.get_day_and_year()
+puzzle = aocd.models.Puzzle(day=day, year=year)
 puzzle_input_data = aocd.get_data(day=day, year=year)
-aocar.print_example_table(day, year, part_a=part_a, part_b=part_b)
 
-part_a_answer = part_a(puzzle_input_data)
+example_input = puzzle.examples[0].input_data
+
+part_a_example = solve(example_input)
+print(part_a_example)
+
+part_a_answer = solve(puzzle_input_data)
 print(part_a_answer)
-# aocd.submit(part_a_answer, part="a", day=day, year=year)
 
-part_b_answer = part_b(puzzle_input_data)
-print(part_b_answer)
-# aocd.submit(part_b_answer, part="b", day=day, year=year)
+part_b_example = solve(example_input, allowed='*+|')
+print(part_b_example)
+
+part_b_example = solve(puzzle_input_data, allowed='*+|')
+print(part_b_example)
