@@ -1,6 +1,5 @@
 import aocd
 import martens as mt
-import aocar
 
 
 def antinode(coord_a, coord_b):
