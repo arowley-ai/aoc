@@ -1,6 +1,5 @@
 import aocd
 import martens as mt
-import aocar
 
 
 def parse_data(input_data):
@@ -9,6 +8,13 @@ def parse_data(input_data):
         .drop(['row_id']) \
         .replace(int, ['size'])
     return data
+
+
+def get_checksum(sizes, datas):
+    return mt.Dataset({'size': sizes, 'data': datas}) \
+        .rolling_mutate(lambda size: sum(size), name='rolling') \
+        .mutate(lambda size, data, rolling: (data if data is not None else 0) * sum(list(range(rolling - size, rolling))), 'checksum') \
+        .long_apply(lambda checksum: sum(checksum))
 
 
 def part_a(input_data):
@@ -29,10 +35,7 @@ def part_a(input_data):
             data[to_slot] = data[-1]
             data = data[:-2]
             size = size[:-2]
-    finalised = mt.Dataset({'size': size, 'data': data}) \
-        .rolling_mutate(lambda size: sum(size), name='rolling') \
-        .mutate(lambda size, data, rolling: data * sum(list(range(rolling - size, rolling))), 'checksum')
-    return sum(finalised['checksum'])
+    return get_checksum(size, data)
 
 
 def part_b(input_data):
@@ -53,10 +56,7 @@ def part_b(input_data):
                 else:
                     data[to_slot] = data[from_slot]
                     data[from_slot] = None
-    finalised = mt.Dataset({'size': size, 'data': data}) \
-        .rolling_mutate(lambda size: sum(size), name='rolling') \
-        .mutate(lambda size, data, rolling: (data if data is not None else 0) * sum(list(range(rolling - size, rolling))), 'checksum')
-    return sum(finalised['checksum'])
+    return get_checksum(size, data)
 
 
 day, year = aocd.get_day_and_year()
