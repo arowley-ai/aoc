@@ -27,14 +27,14 @@ puzzle_input_data = aocd.get_data(day=day, year=year)
 
 example_input = puzzle.examples[0].input_data
 
-part_a_example = solve(example_input)
+part_a_example = part_a(example_input)
 print(part_a_example)
 
-part_a_answer = solve(puzzle_input_data)
+part_a_answer = part_a(puzzle_input_data)
 print(part_a_answer)
 
-part_b_example = solve(example_input, allowed='*+|')
+part_b_example = part_b(example_input)
 print(part_b_example)
 
-part_b_example = solve(puzzle_input_data, allowed='*+|')
+part_b_example = part_b(puzzle_input_data)
 print(part_b_example)
