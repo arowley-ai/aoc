@@ -16,14 +16,7 @@ def blink(rock):
         return [rock * 2024]
 
 
-def part_a(input_data, blinks=25):
-    rocks = parse_data(input_data)
-    for k in range(blinks):
-        rocks = [r for rock in rocks for r in blink(rock)]
-    return len(rocks)
-
-
-def part_b(input_data, blinks=25):
+def solve(input_data, blinks=25):
     rocks = parse_data(input_data)
     data = mt.Dataset({'rock': rocks, 'count': [1] * len(rocks)})
     for k in range(blinks):
@@ -40,14 +33,14 @@ puzzle_input_data = aocd.get_data(day=day, year=year)
 
 example_input = "125 17"
 
-part_a_example = part_a(example_input)
+part_a_example = solve(example_input)
 print(part_a_example)
 
-part_a_answer = part_a(puzzle_input_data)
+part_a_answer = solve(puzzle_input_data)
 print(part_a_answer)
 
-part_b_example = part_b(example_input, blinks=75)
+part_b_example = solve(example_input, blinks=75)
 print(part_b_example)
 
-part_b_example = part_b(puzzle_input_data, blinks=75)
+part_b_example = solve(puzzle_input_data, blinks=75)
 print(part_b_example)
