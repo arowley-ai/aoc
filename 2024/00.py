@@ -36,5 +36,5 @@ print(part_a_answer)
 part_b_example = part_b(example_input)
 print(part_b_example)
 
-part_b_example = part_b(puzzle_input_data)
-print(part_b_example)
+part_b_answer = part_b(puzzle_input_data)
+print(part_b_answer)
