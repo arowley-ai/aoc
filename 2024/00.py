@@ -30,11 +30,11 @@ example_input = puzzle.examples[0].input_data
 part_a_example = part_a(example_input)
 print(part_a_example)
 
-part_a_answer = part_a(puzzle_input_data)
-print(part_a_answer)
-
-part_b_example = part_b(example_input)
-print(part_b_example)
-
-part_b_answer = part_b(puzzle_input_data)
-print(part_b_answer)
+# part_a_answer = part_a(puzzle_input_data)
+# print(part_a_answer)
+#
+# part_b_example = part_b(example_input)
+# print(part_b_example)
+#
+# part_b_answer = part_b(puzzle_input_data)
+# print(part_b_answer)
