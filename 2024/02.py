@@ -1,6 +1,10 @@
-import aocar
 import aocd
 import martens as mt
+import re
+
+
+def list_of_numbers(line):
+    return [int(m.group()) for m in re.finditer(r'\b\d+\b', line)]
 
 
 def trend(report):
@@ -35,7 +39,7 @@ def parse_data(input_data):
 
 def part_a(input_data):
     data = parse_data(input_data) \
-        .mutate_stack(aocar.list_of_numbers, 'report', enumeration='column_id') \
+        .mutate_stack(list_of_numbers, 'report', enumeration='column_id') \
         .select(['row_id', 'column_id', 'report']) \
         .rolling_mutate(trend, grouping_cols=['row_id']) \
         .filter(lambda column_id: column_id != 0) \
@@ -46,7 +50,7 @@ def part_a(input_data):
 
 def part_b(input_data):
     data = parse_data(input_data) \
-        .mutate(aocar.list_of_numbers, 'report_simple') \
+        .mutate(list_of_numbers, 'report_simple') \
         .mutate_stack(report_expand, enumeration='version_id', name='report') \
         .column_stack('report', enumeration='column_id') \
         .select(['row_id', 'column_id', 'version_id', 'report']) \
@@ -60,11 +64,19 @@ def part_b(input_data):
 
 
 day, year = aocd.get_day_and_year()
+puzzle = aocd.models.Puzzle(day=day, year=year)
 puzzle_input_data = aocd.get_data(day=day, year=year)
-aocar.print_example_table(day, year, part_a=part_a, part_b=part_b)
+
+example_input = puzzle.examples[0].input_data
+
+part_a_example = part_a(example_input)
+print(part_a_example)
 
 part_a_answer = part_a(puzzle_input_data)
 print(part_a_answer)
+
+part_b_example = part_b(example_input)
+print(part_b_example)
 
 part_b_answer = part_b(puzzle_input_data)
 print(part_b_answer)

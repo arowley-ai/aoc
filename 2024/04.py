@@ -1,6 +1,5 @@
 import aocd
 import martens as mt
-import aocar
 
 example_input = """MMMSXXMASM
 MSAMXMSMSA

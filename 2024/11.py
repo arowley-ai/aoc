@@ -1,10 +1,14 @@
 import aocd
-import aocar
 import martens as mt
+import re
+
+
+def list_of_numbers(line):
+    return [int(m.group()) for m in re.finditer(r'\b\d+\b', line)]
 
 
 def parse_data(input_data):
-    return [x for x in aocar.list_of_numbers(input_data)]
+    return [x for x in list_of_numbers(input_data)]
 
 
 def blink(rock):

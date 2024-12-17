@@ -1,6 +1,5 @@
 import aocd
 import martens as mt
-import aocar
 
 
 def parse_data(input_data):
