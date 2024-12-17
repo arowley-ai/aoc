@@ -95,7 +95,8 @@ def do_movement(robot, instruction, warehouse_map):
     else:
         points = [Point(robot, True)]
         moved = True
-        while True:
+        point_added = True
+        while point_added:
             point_added = False
             if any(warehouse_map[p.next(direction)] == '#' and p.move_out for p in points):
                 moved = False
@@ -115,8 +116,6 @@ def do_movement(robot, instruction, warehouse_map):
                         new_points.append(Point(p.next((0, 1)), True))
                         point_added = True
             points.extend(new_points)
-            if not point_added:
-                break
         if moved:
             change_map = {p.next(direction): p.value(warehouse_map) for p in points if p.move_out}
             change_map.update({p.coord: '.' for p in points if p.move_out and p.coord not in change_map})
