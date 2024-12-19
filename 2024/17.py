@@ -171,7 +171,7 @@ puzzle = aocd.models.Puzzle(day=day, year=year)
 puzzle_input_data = aocd.get_data(day=day, year=year)
 
 example_input = puzzle.examples[0].input_data
-example_input_b = """Register A: 1
+example_input_b = """Register A: 2024 
 Register B: 0
 Register C: 0
 
@@ -187,7 +187,7 @@ print(part_a_answer)
 part_b_example = part_b(example_input_b, bounds=(0, 10000000))
 print(part_b_example)
 
-part_b_answer = part_b(puzzle_input_data, bounds=[int(1E13), int(3E14)])
+part_b_answer = part_b(puzzle_input_data, bounds=(int(1E13), int(3E14)))
 print(part_b_answer)
 
 
